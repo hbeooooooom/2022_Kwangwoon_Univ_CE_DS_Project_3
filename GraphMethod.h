@@ -3,10 +3,9 @@
 
 #include "ListGraph.h"
 #include "MatrixGraph.h"
-#include "vertexSet.h"
 
-bool BFS(Graph* graph, int vertex);
-bool DFS(Graph* graph, int vertex);
+bool BFS(Graph* graph, int vertex, ofstream *fout);
+bool DFS(Graph* graph, int vertex, ofstream *fout);
 bool DFS_R(Graph* graph, vector<bool>* visit, int vertex);
 bool Kruskal(Graph* graph);
 bool Dijkstra(Graph* graph, int vertex);

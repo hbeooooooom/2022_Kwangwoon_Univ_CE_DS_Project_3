@@ -25,8 +25,8 @@ public:
 	bool mKRUSKAL();
 	bool mBELLMANFORD(int s_vertex, int e_vertex);
 	bool mFLOYD();
-
-	void printErrorCode(int n);	
+	
+	void printErrorCode(int n);
 };
 
 #endif

@@ -13,28 +13,32 @@ ListGraph::~ListGraph()
 
 void ListGraph::getAdjacentEdges(int vertex, map<int, int>* m)
 {
-
+	for(map<int, int>::iterator iter = m_List[vertex].begin(); iter!= m_List[vertex].end(); iter++)
+	{
+		m->insert({iter->first,iter->second});
+	}
 }
 
 void ListGraph::insertEdge(int from, int to, int weight)
 {
-
+	m_List[from].insert({to,weight});//insert list
+	return;
 }
 
-bool ListGraph::printGraph()
+bool ListGraph::printGraph(ofstream *fout)
 {
-	cout<<"Graph is ListGraph!"<<endl;
+	*fout<<"Graph is ListGraph!"<<endl;
 
 	for(int i=0; i<m_Size; i++)
 	{
-		cout<<"["<<i<<"]";
+		*fout<<"["<<i<<"]";
 
-		for(auto it_=m_List[i].begin(); it_!=m_List[i].end() && cout<<" -> "; it_++)
+		for(auto it_=m_List[i].begin(); it_!=m_List[i].end() && *fout<<" -> "; it_++)
 		{
-			cout<<"("<<it_->first<<","<<it_->second<<")";
+			*fout<<"("<<it_->first<<","<<it_->second<<")";
 		}
-		cout<<endl;
+		*fout<<endl;
 	}
-	cout<<endl;
+	*fout<<endl;
 	return 1;
 }

@@ -21,36 +21,43 @@ MatrixGraph::~MatrixGraph()
 
 void MatrixGraph::getAdjacentEdges(int vertex, map<int, int>* m)
 {
-
+	for(int i = 0; i<getSize(); i++)
+	{
+		if(m_Mat[vertex][i] != 0)
+		{
+			m->insert({i,m_Mat[vertex][i]});
+		}
+	}
 }
 
 void MatrixGraph::insertEdge(int from, int to, int weight)
 {
-	
+	m_Mat[from][to] = weight;
+	return;
 }
 
-bool MatrixGraph::printGraph()
+bool MatrixGraph::printGraph(ofstream *fout)
 {
 	if( m_Size < 0 )
 		return 0;
 
-	cout<<"Graph is MatrixGraph!"<<endl;
+	*fout<<"Graph is MatrixGraph!"<<endl;
 
-	cout<<'\t';
+	*fout<<'\t';
 	for(int i=0; i<m_Size; i++)
 	{
-		cout<<"["<<i<<"]"<<'\t';
+		*fout<<"["<<i<<"]"<<'\t';
 	}
-	cout<<endl;
+	*fout<<endl;
 
 	for(int i=0; i<m_Size; i++)
 	{
-		cout<<"["<<i<<"]";
-		for(int j=0; j<m_Size && cout<<'\t'; j++)
+		*fout<<"["<<i<<"]";
+		for(int j=0; j<m_Size && *fout<<'\t'; j++)
 		{
-			cout<<m_Mat[i][j];
+			*fout<<m_Mat[i][j];
 		}
-		cout<<endl;
+		*fout<<endl;
 	}
 	return 1;
 }

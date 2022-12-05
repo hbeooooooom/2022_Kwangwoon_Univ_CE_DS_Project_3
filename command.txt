@@ -1,0 +1,3 @@
+LOAD graph_M.txt
+PRINT
+DFS 3
