@@ -83,6 +83,10 @@ void Manager::run(const char* command_txt) {
 					printErrorCode(500);
 				}
 			}
+			/*else if(strcmp(cmd,"KRUSKAL")==0)// if command KRUSKAL
+			{
+
+			}*/
 			else if (strcmp(cmd, "DIJKSTRA") == 0) //if command DIJKSTRA
 			{
 				str2 = strtok(NULL, " "); //get number
@@ -90,7 +94,20 @@ void Manager::run(const char* command_txt) {
 				int int_vt = atoi(str_vt.c_str());//change int
 				if (!mDIJKSTRA(int_vt))
 				{
-					printErrorCode(600);
+					printErrorCode(700);
+				}
+			}
+			else if(strcmp(cmd,"BELLMANFORD")==0)
+			{
+				str2 = strtok(NULL," "); //get start vartex
+				char* str3 = strtok(NULL," "); //get end vertex
+				string str_vt1 = str2;
+				string str_vt2 = str3;
+				int int_vt1 = atoi(str_vt1.c_str());
+				int int_vt2 = atoi(str_vt2.c_str());
+				if(!mBELLMANFORD(int_vt1, int_vt2))
+				{
+					printErrorCode(800);
 				}
 			}
 		}
@@ -256,7 +273,16 @@ bool Manager::mDIJKSTRA(int vertex)
 	return true;//else return true
 }
 
+bool Manager::mBELLMANFORD(int s_vertex, int e_vertex)
+{
+	if(graph == NULL) return false;
 
+	if(!Bellmanford(graph, s_vertex, e_vertex, &fout))
+	{
+		return false;
+	}
+	return true;
+}
 void Manager::printErrorCode(int n)
 {
 	fout << "======== ERROR ========" << endl;

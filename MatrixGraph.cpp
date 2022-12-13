@@ -32,13 +32,12 @@ void MatrixGraph::getAdjacentEdges(int vertex, map<int, int>* m)
 		}
 	}
 }
-void MatrixGraph::setdistance(int vertex, map<int, int>* m)
+bool MatrixGraph::connect_vertex(int i, int j)
 {
-	for(int i = 0; i<getSize();i++)
-	{
-		if(getvalue(vertex,i)!=0)
-		m[i].insert({getvalue(vertex, i) + m[vertex].begin()->first, vertex});
-	}
+	if (m_Mat[i][j] != 0) // if connected,
+		return true;
+	else
+		return false;
 }
 void MatrixGraph::insertEdge(int from, int to, int weight)
 {

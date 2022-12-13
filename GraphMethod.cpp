@@ -87,14 +87,14 @@ bool DFS_R(Graph* graph, vector<bool>* visit, int vertex, ofstream* fout)
     if (vertex >= graph->getSize()) return false;
 
     map<int, int> adjacentnode;
-    graph->getAdjacentEdges(vertex, &adjacentnode);
+    graph->getAdjacentEdges(vertex, &adjacentnode); //get adj node
     for (map<int, int>::iterator iter = adjacentnode.begin(); iter != adjacentnode.end(); iter++)
     {
         if (visit->at(iter->first) == false)
         {
-            (*visit)[iter->first] = true;
+            (*visit)[iter->first] = true; //change value true
             *fout << " -> " << iter->first;
-            DFS_R(graph, visit, iter->first, fout);
+            DFS_R(graph, visit, iter->first, fout); //recursive DFS_R function
         }
     }
     return true;
@@ -112,50 +112,80 @@ bool Dijkstra(Graph* graph, int vertex, ofstream *fout)
     *fout<<"======= Dijkstra ======="<<endl;
     *fout<<"startvertex: "<<vertex<<endl;
 
-    map<int, int>* m= new map<int,int>[graph->getSize()];
+    int *distance, *visit, *path;
+	distance = new int[graph->getSize()]; // distance array
+	visit = new int[graph->getSize()]; //visit check value array
+	path = new int[graph->getSize()]; //path array
+
+	for (int i = 0; i < graph->getSize(); i++)
+	{ // initializing
+		distance[i] = 0;
+		visit[i] = 0;
+		path[i] = -1;
+	}
+    stack<int> s;
+	s.push(vertex);
+	int back_value; //pop stack valuue
+
+    while(!s.empty())
+    {
+        back_value = s.top();
+        visit[back_value] = 1;
+        s.pop();
+
+        for(int i = 0; i<graph->getSize(); i++)
+        {
+           if(graph -> connect_vertex(back_value,i) == true && i != back_value && i != vertex)
+           {
+                if(visit[i]==0) s.push(i); //if first time visiting
+                if ((distance[i] != 0 && distance[i] > (distance[back_value] + graph->getvalue(back_value, i))) || distance[i]==0)
+                {
+                    distance[i] = distance[back_value] + graph->getvalue(back_value,i);
+                    path[i] = back_value;
+                }
+           }
+        }
+    }
+    int find_back_value;
     for(int i = 0; i<graph->getSize();i++)
     {
-        m[0][i] = 0;
-    }
-    int count_v = 0;
-    int v = vertex;
+        if(i == vertex) {
+            continue;
+        }
+        *fout <<"[" << i <<"] ";
 
-    for(;count_v!=(graph->getSize()-1);)
-    {
-        v = v % graph->getSize(); //v value set
-        graph->setdistance(v,m);
-        v++;
-        count_v++;
-    }
-    for(int i =0; i < graph->getSize(); i++)
-    {
-        if(i == vertex) 
+        find_back_value = i;
+        stack<int>s;
+        while(1)
         {
-            *fout<<"["<<i<<"] x"<<endl;
-        }
-        else if(m[i].empty() == true) //if empty array
-        {
-            *fout<<"["<<i<<"] x"<<endl;
-        }
-        else //not empty array
-        {
-            int j = i;
-            *fout<<"[" <<i<<"]" ;
-            while(j!=vertex)
-            {
-                *fout<< m[j].begin()->second<<"-> ";
-                j = m[j].begin()->second;
-            }
-            *fout<<"("<<m[i].begin()->first<<")"<<endl;
+            if(path[find_back_value] == -1) break;
 
+            s.push(path[find_back_value]);
+            find_back_value = path[find_back_value];
         }
+        if(s.empty()){
+            *fout <<"x"<<endl;
+            continue;
+        }
+        while(!s.empty())
+        {
+            *fout<<s.top()<<" -> ";
+            s.pop();
+        }
+        
+        *fout << i <<" ("<< distance[i] << ")" <<endl;
     }
-    *fout<<"=========================" <<endl <<endl;
     return true;
 }
 
 bool Bellmanford(Graph* graph, int s_vertex, int e_vertex, ofstream *fout)
 {
+    if (s_vertex > graph->getSize()||e_vertex > graph->getSize()) return false;
+
+    *fout<<"======= Bellman-Ford ======="<<endl;
+    int *distance, *path;
+	distance = new int[graph->getSize()]; // distance array
+	path = new int[graph->getSize()]; //path array
 
 }
 

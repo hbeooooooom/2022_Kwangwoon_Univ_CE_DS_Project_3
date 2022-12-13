@@ -12,9 +12,8 @@ ListGraph::~ListGraph()
 }
 int ListGraph::getvalue(int i, int j)
 {
-	map<int, int>::iterator iter = m_List[i].find(j);
+	map<int,int>::iterator iter = m_List[i].find(j);
 	if(iter == m_List[i].end()) return 0;
-
 	return m_List[i].find(j)->second;
 }
 void ListGraph::getAdjacentEdges(int vertex, map<int, int>* m)
@@ -24,13 +23,14 @@ void ListGraph::getAdjacentEdges(int vertex, map<int, int>* m)
 		m->insert({iter->first,iter->second});
 	}
 }
-void ListGraph::setdistance(int vertex,map<int, int>* m )
+bool ListGraph::connect_vertex(int i, int j)
 {
-	for(int i = 0; i<getSize();i++)
-	{
-		if(getvalue(vertex,i)!=0)
-		m[i].insert({getvalue(vertex,i)+m[vertex].begin()->first, vertex});
-	}
+	map<int, int>::iterator it;
+	it = m_List[i].find(j);
+	if (it != m_List[i].end() && it->second != 0) // if connected,
+		return true;
+	else
+		return false;
 }
 void ListGraph::insertEdge(int from, int to, int weight)
 {

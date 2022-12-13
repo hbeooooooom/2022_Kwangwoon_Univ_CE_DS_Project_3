@@ -15,7 +15,7 @@ public:
 	void insertEdge(int from, int to, int weight);
 	bool printGraph(ofstream *fout);
 	int getvalue(int i, int j);
-	void setdistance(int vertex , map<int, int>* m );
+	bool connect_vertex(int i, int j);
 };
 
 #endif
