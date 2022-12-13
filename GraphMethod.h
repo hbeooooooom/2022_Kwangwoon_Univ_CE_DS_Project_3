@@ -6,10 +6,10 @@
 
 bool BFS(Graph* graph, int vertex, ofstream *fout);
 bool DFS(Graph* graph, int vertex, ofstream *fout);
-bool DFS_R(Graph* graph, vector<bool>* visit, int vertex);
-bool Kruskal(Graph* graph);
-bool Dijkstra(Graph* graph, int vertex);
-bool Bellmanford(Graph* graph, int s_vertex, int e_vertex);
-bool FLOYD(Graph* graph);
+bool DFS_R(Graph* graph, vector<bool>* visit, int vertex, ofstream *fout);
+bool Kruskal(Graph* graph, ofstream *fout);
+bool Dijkstra(Graph* graph, int vertex, ofstream *fout);
+bool Bellmanford(Graph* graph, int s_vertex, int e_vertex, ofstream *fout);
+bool FLOYD(Graph* graph, ofstream *fout);
 
 #endif

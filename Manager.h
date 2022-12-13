@@ -6,6 +6,7 @@
 class Manager{
 private:
 	Graph* graph;
+	Graph* nodirection_graph;
 	ofstream fout;
 	int load;
 
@@ -27,6 +28,8 @@ public:
 	bool mFLOYD();
 	
 	void printErrorCode(int n);
+
+	Graph* nodirection(Graph* graph);
 };
 
 #endif

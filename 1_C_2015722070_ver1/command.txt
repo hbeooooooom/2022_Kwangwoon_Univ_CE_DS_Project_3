@@ -1,3 +1,4 @@
 LOAD graph_M.txt
 PRINT
-DIJKSTRA 0
+BFS 3
+DFS_R 0
