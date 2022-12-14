@@ -251,22 +251,20 @@ bool FLOYD(Graph *graph, ofstream *fout)
             else distance[i][j] = MAX;
         }
     }
-
     for (int k = 0; k < graph->getSize(); k++)
     {
         for (int i = 0; i < graph->getSize(); i++)
         {
             for (int j = 0; j < graph->getSize(); j++)
             {
-                //if(i == j) continue;
                 distance[i][j] = MIN(distance[i][j],distance[i][k]+distance[k][j]);
-               // if(distance[i][j] > distance[i][k]+distance[k][j] && distance[i][k]!=MAX && distance[k][j]!=MAX)
-               // distance[i][j] = distance[i][k]+distance[k][j];
-              //  else distance[i][j] = distance[i][j];
             }
         }
     }
-   
+    for(int i = 0; i<graph->getSize(); i++)
+        for(int j =0;j<graph->getSize();j++)
+            if(distance[i][j]<999999 && distance[i][j]>500000) return false;
+
     *fout<<"======== FLOYD ========="<<endl;
     *fout<<"\t";
     for(int i=0; i<graph->getSize(); i++)
@@ -280,7 +278,8 @@ bool FLOYD(Graph *graph, ofstream *fout)
         *fout<<"["<<i<<"]";
         for(int j = 0; j<graph->getSize()&&*fout<<'\t'; j++)
         {
-            *fout<<distance[i][j];
+            if(distance[i][j] == 999999) *fout<<"x";
+            else *fout<<distance[i][j];
         }
         *fout<<endl;
     }
