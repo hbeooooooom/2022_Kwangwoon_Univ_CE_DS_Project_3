@@ -110,6 +110,17 @@ void Manager::run(const char* command_txt) {
 					printErrorCode(800);
 				}
 			}
+			else if(strcmp(cmd, "FLOYD")==0)
+			{
+				if(!mFLOYD())
+				{
+					printErrorCode(900);
+				}
+			}
+			else if(strcmp(cmd,"EXIT")==0)
+			{
+				return;
+			}
 		}
 
 	}
@@ -211,7 +222,7 @@ bool Manager::LOAD(char* filename)
 
 bool Manager::PRINT() //print function
 {
-	if (nodirection_graph->printGraph(&fout))
+	if (graph->printGraph(&fout))
 		return true;
 	return false;
 }
@@ -281,6 +292,12 @@ bool Manager::mBELLMANFORD(int s_vertex, int e_vertex)
 	{
 		return false;
 	}
+	return true;
+}
+bool Manager::mFLOYD()
+{
+	if(graph == NULL) return false;
+	if(!FLOYD(graph,&fout)) return false;
 	return true;
 }
 void Manager::printErrorCode(int n)

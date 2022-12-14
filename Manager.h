@@ -29,7 +29,6 @@ public:
 	
 	void printErrorCode(int n);
 
-	Graph* nodirection(Graph* graph);
 };
 
 #endif
