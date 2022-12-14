@@ -11,11 +11,11 @@ public:
 	ListGraph(bool type, int size);
 	~ListGraph();
 		
-	void getAdjacentEdges(int vertex, map<int, int>* m);
-	void insertEdge(int from, int to, int weight);
-	bool printGraph(ofstream *fout);
-	int getvalue(int i, int j);
-	bool connect_vertex(int i, int j);
+	void getAdjacentEdges(int vertex, map<int, int>* m); //get adjacent edge function
+	void insertEdge(int from, int to, int weight); //insert value in graph function
+	bool printGraph(ofstream *fout); // print graph function
+	int getvalue(int i, int j); //get edge function
+	bool connect_vertex(int i, int j);//check connect vertex function
 };
 
 #endif

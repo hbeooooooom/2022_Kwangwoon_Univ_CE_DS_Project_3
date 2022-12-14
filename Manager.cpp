@@ -83,10 +83,13 @@ void Manager::run(const char* command_txt) {
 					printErrorCode(500);
 				}
 			}
-			/*else if(strcmp(cmd,"KRUSKAL")==0)// if command KRUSKAL
+			else if(strcmp(cmd,"KRUSKAL")==0)// if command KRUSKAL
 			{
-
-			}*/
+				if(!mKRUSKAL())
+				{
+					printErrorCode(600);
+				}
+			}
 			else if (strcmp(cmd, "DIJKSTRA") == 0) //if command DIJKSTRA
 			{
 				str2 = strtok(NULL, " "); //get number
@@ -232,14 +235,14 @@ bool Manager::mBFS(int vertex) //bfs function
 
 	if (graph == NULL)
 		return false;
-	if (!BFS(nodirection_graph, vertex, &fout)) return false;
+	if (!BFS(nodirection_graph, vertex, &fout)) return false;//if error BFS algorithm
 	return true;
 }
 
 bool Manager::mDFS(int vertex) //dfs function
 {
 	if (graph == NULL) return false;
-	DFS(nodirection_graph, vertex, &fout);
+	DFS(nodirection_graph, vertex, &fout);//if error DFS algorithm
 	return true;
 }
 
@@ -266,18 +269,25 @@ bool Manager::mDFS_R(int vertex)//recursive dfs function
 		//temp->swap(*visit);
 		return true;
 	}
-	else
+	else //if error DFS_R algorithm
 	{
 		//delete[] visit;
 		return false;
 	}
 }
-
+bool Manager::mKRUSKAL()
+{
+	if(!Kruskal(nodirection_graph,&fout))//if error Kruskal algorithm
+	{
+		return false; //return false
+	}
+	return true;//else return true
+}
 bool Manager::mDIJKSTRA(int vertex)
 {
 	if (graph == NULL) return false;
 
-	if (!Dijkstra(graph, vertex, &fout)) //if Dijkstra return false
+	if (!Dijkstra(graph, vertex, &fout)) //if error Dijkstra algorithm
 	{
 		return false;//return false
 	}
@@ -288,7 +298,7 @@ bool Manager::mBELLMANFORD(int s_vertex, int e_vertex)
 {
 	if(graph == NULL) return false;
 
-	if(!Bellmanford(graph, s_vertex, e_vertex, &fout))
+	if(!Bellmanford(graph, s_vertex, e_vertex, &fout))// if error Bellmanford algorithm
 	{
 		return false;
 	}
@@ -296,8 +306,8 @@ bool Manager::mBELLMANFORD(int s_vertex, int e_vertex)
 }
 bool Manager::mFLOYD()
 {
-	if(graph == NULL) return false;
-	if(!FLOYD(graph,&fout)) return false;
+	if(graph == NULL) return false; // if no graph return false
+	if(!FLOYD(graph,&fout)) return false; // if error FLOYD algorithm
 	return true;
 }
 void Manager::printErrorCode(int n)

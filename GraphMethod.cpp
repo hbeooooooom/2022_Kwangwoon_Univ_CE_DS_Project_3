@@ -1,6 +1,5 @@
 #include "GraphMethod.h"
-#define MAX_INT 2147483647
-#define MIN(a,b) a<b ? a:b
+#define MIN(a,b) a<b ? a:b //select min value
 bool BFS(Graph *graph, int vertex, ofstream *fout)
 {
     if (vertex >= graph->getSize())
@@ -8,36 +7,34 @@ bool BFS(Graph *graph, int vertex, ofstream *fout)
     queue<int> q;
     map<int, int> adjacentnode;
     int front_value;
-    bool *visited = new bool[graph->getSize()]{0}; // make arr
-    visited[vertex] = true;
+    bool *visited = new bool[graph->getSize()]{0}; // check visit vertex
+    visited[vertex] = true; //visit vertex
 
     *fout << "========== BFS ==========" << endl;
     *fout << "startvertex: " << vertex << endl;
 
-    q.push(vertex);
+    q.push(vertex); //push vertex
     while (!q.empty())
     {
         front_value = q.front();
-        graph->getAdjacentEdges(front_value, &adjacentnode); // get adj node
+        graph->getAdjacentEdges(front_value, &adjacentnode); // get adj edge
         q.pop();
         *fout << front_value;
         for (map<int, int>::iterator iter = adjacentnode.begin(); iter != adjacentnode.end(); iter++)
         {
             if (!visited[iter->first])
             {
-                q.push(iter->first);
+                q.push(iter->first); //push vertex
                 visited[iter->first] = true; // set value true
             }
         }
         if (!q.empty())
         {
-            *fout << " -> "; // if empty queue
+            *fout << " -> "; // if not empty queue
         }
-        else
-            *fout << endl; // print value
     }
-    *fout << "======================" << endl;
-    delete[] visited;
+    *fout <<endl<< "======================" << endl;
+    delete[] visited; //memory free
 
     return true;
 }
@@ -50,7 +47,7 @@ bool DFS(Graph *graph, int vertex, ofstream *fout)
     map<int, int> adjacentnode;
     int back_value;
 
-    bool *visited = new bool[graph->getSize()]{0};
+    bool *visited = new bool[graph->getSize()]{0};//check visit vertex
     visited[vertex] = true;
     *fout << "========== DFS ==========" << endl;
     *fout << "startvertex: " << vertex << endl;
@@ -73,12 +70,10 @@ bool DFS(Graph *graph, int vertex, ofstream *fout)
         }
         if (!s.empty())
         {
-            *fout << " -> "; // if stack empty
+            *fout << " -> "; // if stack not empty
         }
-        else
-            *fout << endl; // print value
     }
-    *fout << "======================" << endl;
+    *fout <<endl<< "======================" << endl;
     delete[] visited;
 
     return true;
@@ -105,11 +100,53 @@ bool DFS_R(Graph *graph, vector<bool> *visit, int vertex, ofstream *fout)
 
 bool Kruskal(Graph *graph, ofstream *fout)
 {
+    map<int,int> adjacentnode;
+    int parent[graph->getSize()];
+    
 }
 
+void quickSort(int arr[],int left,int right)
+{
+    if (left<right)
+    {
+        if (right-left+1<=6)
+        {
+            InsertionSort(arr,left+right);
+        }
+        else
+        {
+            int i = left;
+            int j = right+1;
+            int pivot = arr[left];
+            do
+            {
+                do
+                {
+                    i++;
+                } while (arr[i] < pivot);
+                do
+                {
+                    j--;
+                } while (arr[j] > pivot);
+                if (i < j)
+                {
+                    int temp = arr[i];
+                    arr[i] = arr[j];
+                    arr[j] = temp;
+                }
+            } while (i < j);
+            int temp = arr[left];
+            arr[left] = arr[j];
+            arr[j] = temp;
+
+            quickSort(arr, left, j - 1);
+            quickSort(arr, j + 1, right);
+        }
+    }
+}
 bool Dijkstra(Graph *graph, int vertex, ofstream *fout)
 {
-    if (vertex >= graph->getSize() || vertex < 0)
+    if (vertex >= graph->getSize() || vertex < 0)// if vertex <0 or vertex > graph->getSize() return false
         return false;
 
     *fout << "======= Dijkstra =======" << endl;
@@ -144,28 +181,22 @@ bool Dijkstra(Graph *graph, int vertex, ofstream *fout)
                     s.push(i); // if first time visiting
                 if ((distance[i] != 0 && distance[i] > (distance[back_value] + graph->getvalue(back_value, i))) || distance[i] == 0)
                 {
-                    distance[i] = distance[back_value] + graph->getvalue(back_value, i);
-                    path[i] = back_value;
+                    distance[i] = distance[back_value] + graph->getvalue(back_value, i);//change weight
+                    path[i] = back_value;//change path
                 }
             }
         }
     }
     int find_back_value;
-    for (int i = 0; i < graph->getSize(); i++)
+    for (int i = 0; i < graph->getSize(); i++)//print Dijkstra
     {
-        if (i == vertex)
-        {
-            continue;
-        }
+        if (i == vertex){continue;}
         *fout << "[" << i << "] ";
-
         find_back_value = i;
         stack<int> s;
         while (1)
         {
-            if (path[find_back_value] == -1)
-                break;
-
+            if (path[find_back_value] == -1)  break;
             s.push(path[find_back_value]);
             find_back_value = path[find_back_value];
         }
@@ -187,13 +218,13 @@ bool Dijkstra(Graph *graph, int vertex, ofstream *fout)
 
 bool Bellmanford(Graph *graph, int s_vertex, int e_vertex, ofstream *fout)
 {
-    if (s_vertex > graph->getSize() || e_vertex >= graph->getSize())
-        return false;
+    if (s_vertex > graph->getSize() || e_vertex >= graph->getSize()) // if start vertex > graph size or end vertex >= graph size
+        return false; //return error
 
     bool *visited = new bool[graph->getSize()]{0};
     int distance[graph->getSize()];
     int prev[graph->getSize()];
-    for(int i=0;i<graph->getSize();i++){
+    for(int i=0;i<graph->getSize();i++){//initializing
         distance[i]=MAX;
         prev[i]=-1;
     } 
@@ -202,11 +233,11 @@ bool Bellmanford(Graph *graph, int s_vertex, int e_vertex, ofstream *fout)
         for(int j=0;j<graph->getSize();j++){
             map<int,int> adjacentnode;
             if(distance[j] == MAX) continue;
-            graph->getAdjacentEdges(j,&adjacentnode);
-            for(map<int, int>::iterator iter=adjacentnode.begin();iter!=adjacentnode.end(); iter++){ // change path
-                if(distance[iter->first] > distance[j]+iter->second){
+            graph->getAdjacentEdges(j,&adjacentnode); //get adjacent adge
+            for(map<int, int>::iterator iter=adjacentnode.begin();iter!=adjacentnode.end(); iter++){
+                if(distance[iter->first] > distance[j]+iter->second){ //if distance[iter->first] > distance[j] + iter->second change distance
                     distance[iter->first] = distance[j]+iter->second;
-                    prev[iter->first] = j;
+                    prev[iter->first] = j; //change prev vertex
 
                     if(i==graph->getSize()) return false; //if negative cycle print error code
                 }
@@ -225,9 +256,9 @@ bool Bellmanford(Graph *graph, int s_vertex, int e_vertex, ofstream *fout)
             *fout << " -> " << s.top();
             s.pop();
         }
-        *fout <<endl<<"cost: " << distance[e_vertex]; //print path weight
+        *fout << endl<<"cost: " << distance[e_vertex]; //print path weight
     }
-    *fout << "\n====================\n";
+    *fout << endl<<"===================="<<endl;
     return true;
 }
 
@@ -257,13 +288,13 @@ bool FLOYD(Graph *graph, ofstream *fout)
         {
             for (int j = 0; j < graph->getSize(); j++)
             {
-                distance[i][j] = MIN(distance[i][j],distance[i][k]+distance[k][j]);
+                distance[i][j] = MIN(distance[i][j],distance[i][k]+distance[k][j]); //change min value
             }
         }
     }
     for(int i = 0; i<graph->getSize(); i++)
         for(int j =0;j<graph->getSize();j++)
-            if(distance[i][j]<999999 && distance[i][j]>500000) return false;
+            if(distance[i][j]<999999 && distance[i][j]>500000) return false; //if distance not MAX value negative cycle
 
     *fout<<"======== FLOYD ========="<<endl;
     *fout<<"\t";
@@ -278,10 +309,11 @@ bool FLOYD(Graph *graph, ofstream *fout)
         *fout<<"["<<i<<"]";
         for(int j = 0; j<graph->getSize()&&*fout<<'\t'; j++)
         {
-            if(distance[i][j] == 999999) *fout<<"x";
-            else *fout<<distance[i][j];
+            if(distance[i][j] == 999999) *fout<<"x"; //if no path print x
+            else *fout<<distance[i][j]; //print path
         }
         *fout<<endl;
     }
+    *fout<<"==========================="<<endl;
     return true;
 }

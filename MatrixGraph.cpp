@@ -1,26 +1,26 @@
 #include "MatrixGraph.h"
 
-MatrixGraph::MatrixGraph(bool type, int size) : Graph(type, size)
+MatrixGraph::MatrixGraph(bool type, int size) : Graph(type, size)// constructor
 {
 	m_Mat = new int*[size];
 	for(int i=0; i<size; i++)
 	{
 		m_Mat[i] = new int[size];
-		memset(m_Mat[i], 0, sizeof(int)*size);
+		memset(m_Mat[i], 0, sizeof(int)*size);//initialize
 	}
 }
 
-MatrixGraph::~MatrixGraph()
+MatrixGraph::~MatrixGraph()	// destructor
 {
 	for(int i=0; i<getSize(); i++)
 	{
-		delete[] m_Mat[i];
+		delete[] m_Mat[i];//memory free
 	}
-	delete[] m_Mat;
+	delete[] m_Mat;//memory free
 }
 int MatrixGraph::getvalue(int i, int j)
 {
-	return m_Mat[i][j];
+	return m_Mat[i][j]; //get weight
 }
 void MatrixGraph::getAdjacentEdges(int vertex, map<int, int>* m)
 {
@@ -28,20 +28,20 @@ void MatrixGraph::getAdjacentEdges(int vertex, map<int, int>* m)
 	{
 		if(m_Mat[vertex][i] != 0)
 		{
-			m->insert({i,m_Mat[vertex][i]});
+			m->insert({i,m_Mat[vertex][i]}); //insert map data
 		}
 	}
 }
 bool MatrixGraph::connect_vertex(int i, int j)
 {
-	if (m_Mat[i][j] != 0) // if connected,
-		return true;
+	if (m_Mat[i][j] != 0) // if connected
+		return true; //return true
 	else
 		return false;
 }
 void MatrixGraph::insertEdge(int from, int to, int weight)
 {
-	m_Mat[from][to] = weight;
+	m_Mat[from][to] = weight;//insert weight
 	return;
 }
 

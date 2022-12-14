@@ -6,7 +6,7 @@
 class Manager{
 private:
 	Graph* graph;
-	Graph* nodirection_graph;
+	Graph* nodirection_graph; //no direction graph
 	ofstream fout;
 	int load;
 
@@ -16,16 +16,16 @@ public:
 
 	void run(const char * command_txt);
 	
-	bool LOAD(char* filename);
-	bool PRINT();
+	bool LOAD(char* filename); //LOAD function
+	bool PRINT();//print function
 	
-	bool mBFS(int vertex);
-	bool mDFS_R(int vertex);
-	bool mDFS(int vertex);
-	bool mDIJKSTRA(int vertex);
-	bool mKRUSKAL();
-	bool mBELLMANFORD(int s_vertex, int e_vertex);
-	bool mFLOYD();
+	bool mBFS(int vertex);//BFS function
+	bool mDFS_R(int vertex);//DFS_R function
+	bool mDFS(int vertex);//DFS function
+	bool mDIJKSTRA(int vertex);//DIJKSTRA function
+	bool mKRUSKAL();//KRUSKAL function
+	bool mBELLMANFORD(int s_vertex, int e_vertex); // BELLMANFORD function
+	bool mFLOYD();// FLOYD function
 	
 	void printErrorCode(int n);
 
