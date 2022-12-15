@@ -149,6 +149,7 @@ bool Kruskal(Graph *graph, ofstream *fout)
         l_weight[i]=l_weight[i+1]; //k start 1 so l_weight[0] = empty
     }
     k--;
+    int check_neg = 0;
     for(int i = 0; i< k;)
     {
         for(int j = 0; j< graph->getSize(); j++)
@@ -165,6 +166,7 @@ bool Kruskal(Graph *graph, ofstream *fout)
                     {
                         Union(j_parent, l_parent, parent);
                         p_weight[j][l] = l_weight[i];
+                        check_neg++;
                     }
                     i++;
                     if(i == graph->getSize()-1);
@@ -174,7 +176,7 @@ bool Kruskal(Graph *graph, ofstream *fout)
         }
          if(i == graph->getSize()-1);
     }
-
+    if(check_neg < graph->getSize()-1) return false;
     for(int i = 0; i<graph->getSize(); i++)
     {
         for(int j = 0; j<graph->getSize(); j++)
