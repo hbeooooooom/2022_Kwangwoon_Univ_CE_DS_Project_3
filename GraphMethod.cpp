@@ -344,9 +344,9 @@ bool Dijkstra(Graph *graph, int vertex, ofstream *fout)
 
         *fout << i << " (" << distance[i] << ")" << endl;
     }
-    delete distance;
-    delete visit;
-    delete path;
+    delete[] distance;
+    delete[] visit;
+    delete[] path;
     return true;
 }
 
@@ -393,10 +393,9 @@ bool Bellmanford(Graph *graph, int s_vertex, int e_vertex, ofstream *fout)
         *fout << endl<<"cost: " << distance[e_vertex]; //print path weight
     }
     *fout << endl<<"===================="<<endl;
+    delete[] visited;
     return true;
 }
-
-
 
 bool FLOYD(Graph *graph, ofstream *fout)
 {
@@ -449,5 +448,10 @@ bool FLOYD(Graph *graph, ofstream *fout)
         *fout<<endl;
     }
     *fout<<"==========================="<<endl;
+    for(int i = 0; i<graph->getSize();i++)
+    {
+      delete[] distance[i];
+    }
+    delete[] distance;
     return true;
 }

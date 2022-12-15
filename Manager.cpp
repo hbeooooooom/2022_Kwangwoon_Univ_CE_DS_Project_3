@@ -10,8 +10,10 @@ Manager::Manager()
 
 Manager::~Manager()
 {
-	if (load)
+	if (load){
 		delete graph;
+		delete nodirection_graph;
+	}
 	fout.close();
 }
 
@@ -232,7 +234,6 @@ bool Manager::PRINT() //print function
 
 bool Manager::mBFS(int vertex) //bfs function
 {
-
 	if (graph == NULL)
 		return false;
 	if (!BFS(nodirection_graph, vertex, &fout)) return false;//if error BFS algorithm
@@ -264,19 +265,18 @@ bool Manager::mDFS_R(int vertex)//recursive dfs function
 	{
 
 		fout << endl << "======================" << endl;
-		//(*visit).clear();
-		//vector<bool>*temp;
-		//temp->swap(*visit);
+		delete visit;
 		return true;
 	}
 	else //if error DFS_R algorithm
 	{
-		//delete[] visit;
+		delete visit;
 		return false;
 	}
 }
 bool Manager::mKRUSKAL()
 {
+	if(graph == NULL)  return false;
 	if(!Kruskal(nodirection_graph,&fout))//if error Kruskal algorithm
 	{
 		return false; //return false
