@@ -1,8 +1,3 @@
 LOAD graph_M.txt
 PRINT
-BFS 0
-BFS 1
-BFS 2
-BFS 3
-BFS 5
-BFS 9
+KRUSKAL

@@ -1,4 +1,0 @@
-LOAD graph_M.txt
-PRINT
-BFS 3
-DFS_R 0

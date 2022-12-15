@@ -100,9 +100,146 @@ bool DFS_R(Graph *graph, vector<bool> *visit, int vertex, ofstream *fout)
 
 bool Kruskal(Graph *graph, ofstream *fout)
 {
-    map<int,int> adjacentnode;
+    if(graph == NULL) return false; //if no graph
+
     int parent[graph->getSize()];
+    int distance[graph->getSize()][graph->getSize()];
+    int p_weight[graph->getSize()][graph->getSize()];
+    int l_weight[graph->getSize()*graph->getSize()] = {0,};
+    for(int i = 0; i<graph->getSize();i++)
+    {
+        parent[i]=-1; //initialize parent array
+        for(int j = 0; j<graph->getSize(); j++)
+        {
+            distance[i][j] = 0; //initialize edge array
+            p_weight[i][j] =0; //initialize weight array
+        }
+    }
     
+    for(int i = 0; i< graph->getSize(); i++)
+    {
+        map<int, int> adjacentnode;
+        graph->getAdjacentEdges(i, &adjacentnode);
+        map<int,int>::iterator iter;
+        for(iter = adjacentnode.begin(); iter!= adjacentnode.end(); iter++)//check diagonal array
+        {
+            distance[i][iter->first] = iter->second;
+            if(distance[iter->first][i] == distance[i][iter->first]) distance[i][iter->first] = 0;
+            else if(distance[i][iter->first] > distance[iter->first][i] && distance[iter->first][i] != 0) distance[i][iter->first] = 0;
+            else if(distance[i][iter->first] < distance[iter->first][i] && distance[i][iter->first] != 0) distance[iter->first][i] = 0;
+        }
+    }
+   
+    int k = 1;
+    for(int i = 0; i<graph->getSize(); i++)
+    {
+        for(int j = 0; j<graph->getSize(); j++)
+        {
+            if(distance[i][j] != 0)
+            {
+                l_weight[k]= distance[i][j];
+                k++;
+            }
+        }
+    }
+    quickSort(l_weight,1,k-1); //quick sort
+
+    for(int i = 0; i < k;i++)
+    {
+        l_weight[i]=l_weight[i+1]; //k start 1 so l_weight[0] = empty
+    }
+    k--;
+    for(int i = 0; i< k;)
+    {
+        for(int j = 0; j< graph->getSize(); j++)
+        {
+            for(int l = 0; l<graph->getSize(); l++)
+            {
+                if(distance[j][l]==l_weight[i]) //if same edge
+                {
+                    distance[j][l] = 0;
+                    int j_parent = collapsingFind(parent,j); //find parent
+                    int l_parent = collapsingFind(parent, l); //find parent
+
+                    if(j_parent != l_parent) //if not same parent
+                    {
+                        Union(j_parent, l_parent, parent);
+                        p_weight[j][l] = l_weight[i];
+                    }
+                    i++;
+                    if(i == graph->getSize()-1);
+                }
+            }
+             if(i == graph->getSize()-1);
+        }
+         if(i == graph->getSize()-1);
+    }
+
+    for(int i = 0; i<graph->getSize(); i++)
+    {
+        for(int j = 0; j<graph->getSize(); j++)
+        {
+            if(p_weight[i][j]!=0) p_weight[j][i] = p_weight[i][j]; //reverse direction copy
+        }
+    }
+    *fout<<"========= Kruskal ========="<<endl; //print
+    int cost_value = 0;
+    for(int i = 0; i<graph->getSize(); i++)
+    {
+        *fout<<"["<<i<<"] ";
+        for(int j = 0; j<graph->getSize(); j++)
+        {
+            if(p_weight[i][j] != 0)
+            {
+                *fout<<j<<"(" << p_weight[i][j]<<") ";
+                cost_value += p_weight[i][j];
+            }
+        }
+        *fout<<endl;
+    }
+    cost_value = cost_value/2;
+    *fout<<"cost: "<<cost_value<<endl;
+    *fout<<"================="<<endl;
+    return true;
+}
+
+int Union(int i, int j, int parent[]){
+    int temp = parent[i]+ parent[j];
+    if(parent[i]> parent[j]){ //if i>j
+        parent[i]=j; //j go under i
+        parent[j]=temp;
+    }
+    else{
+        parent[j]=i; //i go under j
+        parent[i]=temp;
+    }
+}
+
+int collapsingFind(int parent[], int i){
+    int r=i;
+    for(r=i ; parent[r]>=0; r=parent[r]){ //go to parent
+        while(i !=r){
+            int s= parent[i];
+            parent[i]=r;
+            i=s;
+        }
+    }
+    return r;
+}
+void InsertionSort(int arr[],int right)
+{
+    for(int i = 2; i<=right -1; i++)
+    {
+        int n = arr[i];
+        int j = i -1;
+        arr[0] = n;
+        while(n < arr[i])
+        {
+            arr[j+1] = arr[j]; //change value
+            j--;
+        }
+        arr[j+1]=n;
+    }
 }
 
 void quickSort(int arr[],int left,int right)
@@ -118,25 +255,18 @@ void quickSort(int arr[],int left,int right)
             int i = left;
             int j = right+1;
             int pivot = arr[left];
-            do
-            {
-                do
-                {
-                    i++;
-                } while (arr[i] < pivot);
-                do
-                {
-                    j--;
-                } while (arr[j] > pivot);
+            do {
+                do{i++;} while (arr[i] < pivot); //if vluae < pivot value
+                do{j--;} while (arr[j] > pivot); //if value > pivot value
                 if (i < j)
                 {
-                    int temp = arr[i];
+                    int temp = arr[i]; //change value
                     arr[i] = arr[j];
                     arr[j] = temp;
                 }
             } while (i < j);
             int temp = arr[left];
-            arr[left] = arr[j];
+            arr[left] = arr[j];//change value
             arr[j] = temp;
 
             quickSort(arr, left, j - 1);
@@ -144,6 +274,7 @@ void quickSort(int arr[],int left,int right)
         }
     }
 }
+
 bool Dijkstra(Graph *graph, int vertex, ofstream *fout)
 {
     if (vertex >= graph->getSize() || vertex < 0)// if vertex <0 or vertex > graph->getSize() return false
@@ -213,6 +344,9 @@ bool Dijkstra(Graph *graph, int vertex, ofstream *fout)
 
         *fout << i << " (" << distance[i] << ")" << endl;
     }
+    delete distance;
+    delete visit;
+    delete path;
     return true;
 }
 

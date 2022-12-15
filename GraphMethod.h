@@ -12,7 +12,7 @@ bool Dijkstra(Graph* graph, int vertex, ofstream *fout); //Dijkstra function
 bool Bellmanford(Graph* graph, int s_vertex, int e_vertex, ofstream *fout);//Bellman-Ford function
 bool FLOYD(Graph* graph, ofstream *fout);// Floyd function
 void quickSort(int arr[],int left,int right); //quick sort function
-void quick(int arr[],int left,int right); //quick sort insert function
-void Insert(int arr[],int arr2[],int right); //InsertSort insert function
 void InsertionSort(int arr[],int right); //Insertion sort function
+int collapsingFind(int parent[], int i); //collapsing find function
+int Union(int i, int j, int parent[]); //union function
 #endif
